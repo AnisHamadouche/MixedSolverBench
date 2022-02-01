@@ -1,6 +1,6 @@
 ## RPFOSolver Benchmark
 
-RPFOSolver (Reduced-precision First Order Solver) Benchmark is an open-source MATLAB benchmark for fist-order convex optimization solvers. RPFOSolver implements the alternating direction method of multipliers (ADMM) and the Proximal-gradient Descent (PGD) under different floating-point and fixed-point machine representations. 
+RPFOSolver Benchmark (Reduced-precision First Order Solver Benchmark) is an open-source MATLAB benchmark for fist-order convex optimization solvers. RPFOSolver implements the alternating direction method of multipliers (ADMM) and the Proximal-gradient Descent (PGD) under different floating-point and fixed-point machine representations. 
 
 **Current version:** 1.0.0
 

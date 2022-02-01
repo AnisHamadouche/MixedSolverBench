@@ -67,7 +67,7 @@ If you find RPFOSolver Benchmark useful, please cite the following paper as appr
 ```
 
 ## Contact us<a name="Contacts"></a>
-To contact us about RPFOSolver Benchmark, suggest improvements and report bugs, email either [Anis Hamadouche](mailto:ah225@hw.ac.uk?Subject=RPFOSolver Benchmark) or [Yun Wu](mailto:y.wu@hw.ac.uk?Subject=RPFOSolver Benchmark).
+To contact us about RPFOSolver Benchmark, suggest improvements and report bugs, email either [Anis Hamadouche] (mailto:ah225@hw.ac.uk?Subject=RPFOSolverBenchmark) or [Yun Wu] (mailto:y.wu@hw.ac.uk?Subject=RPFOSolverBenchmark).
 
 
 ## Licence<a name="Licence"></a>

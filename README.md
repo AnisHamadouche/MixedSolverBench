@@ -33,7 +33,7 @@ Type
  	>> pg_benchmarking
 OR
 	>> admm_benchmarking
-with custom problem data (modify the data) or use the default randomly generated problem data to compare the LASSO function values under different machine representations. The default benchmark implements PG and ADMM under 'double precision', 'single precision', '12 bits fixed-point' and  %'16 bits fixed-point' representations. 
+with custom problem data (modify the data) or use the default randomly generated problem data to compare the LASSO function values under different machine representations. The default benchmark implements PG and ADMM under 'double precision', 'single precision', '12 bits fixed-point' and  '16 bits fixed-point' representations. 
 
 To add custom data types add a case statement with custom data type name. To invoke a specific type within another function use  
 	>> T = mytypes(<data type name>);

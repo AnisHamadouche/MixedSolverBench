@@ -22,9 +22,8 @@ RPFOSolver Benchmark (Reduced-precision First Order Solver Benchmark) is an open
 
 RPFOSolver Benchmark implements PG and ADMM to solve the LASSO problem
 
-'''math
-		(1) minimize 	\frac{1}{2}\norm{Ax-b}_2^2+\norm{x}_1	
-'''
+(1) <img src="https://render.githubusercontent.com/render/math?math=\text{minimize}\frac{1}{2}\norm{Ax-b}_2^2+\norm{x}_1">
+		(1) minimize	\frac{1}{2}\norm{Ax-b}_2^2+\norm{x}_1	
 
 RPFOSolver Benchmark offers a choice to solve problem (1) using different custom data types and compares the output of each to the default double precision floating-point representation.
 

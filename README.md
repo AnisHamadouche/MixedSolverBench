@@ -26,6 +26,11 @@ RPFOSolver Benchmark implements PG and ADMM to solve the LASSO problem
 
 RPFOSolver Benchmark offers a choice to solve problem (1) using different custom data types and compares the output of each to the default double precision floating-point representation.
 
+## Requirement<a name="Requirement"></a>
+
+* CVX
+* Fixed-point Designer
+
 ## Quick start<a name="QuickStart"></a>
 
 Type

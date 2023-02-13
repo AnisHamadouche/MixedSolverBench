@@ -9,14 +9,14 @@ function pg_benchmarking
 clear;
 clc;
 close all;
-addpath './PG'
+addpath 'C:\Users\ah225\Documents\MATLAB\RPFOSolver Benchmark\PG'
 
 %% Problem data
 
 % s = RandStream.create('mt19937ar','seed',0);
 % RandStream.setDefaultStream(s);
-scenario = 'R';
-if scenario == 'S'
+
+if choice == 'R'
     % synthetic data
     m = 100;       % number of examples
     n = 500;      % number of features
@@ -28,23 +28,15 @@ if scenario == 'S'
     b = A*x0 + v;
 else
     % real data
-    m = 100;
     noise_mean = 0;
-    noise_var = 0.0001; % 10^{-5}
-    inputImage = im2double(imread('./data/einstein.jpg'));
-    % reduce resolution to fit in memory
-    N = 2;
-    [rows, columns, numColorChannels] = size(inputImage);
-    numOutputRows = round(rows/N);
-    numOutputColumns = round(columns/N);
-    x0 = imresize(inputImage, [numOutputRows, numOutputColumns]);
+    noise_var = 0.05; % 10^{-5}
+    
+    x0 = im2double(imread('./data/einstein.jpg'));
     [x0m,x0n]=size(x0);
     x0 = x0(:);
-    A = randn(m,size(x0,1));
-    [m,n]=size(A);
     %g = imfilter(f,h,'conv','circular'); % blur
-    b = imnoise(A*x0,'gaussian',noise_mean,noise_var); % ading noise
-    imshow([reshape(x0,x0m,x0n)]);
+    b = imnoise(x0,'gaussian',noise_mean,noise_var); % ading noise
+    %imshow([reshape(x0,x0m,x0n),reshape(b,x0m,x0n)]);
 end
 
 fprintf('solving instance with %d examples, %d variables\n', m, n);
@@ -94,15 +86,11 @@ beta = 0.5;
 
   % Run 
   [y0,x64] = entrypoint('double',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL);
-  fprintf('Solved with double precision\n');
   [y01,x32] = entrypoint('single',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL);
-  fprintf('Solved with single precision\n');
-  [y16,x16] = entrypoint('fixed16',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
-  fprintf('Solved with half precision\n');
-  [y12,x12] = entrypoint('fixed12',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
-  fprintf('Solved with 12 bits\n');
   [y8,x8] = entrypoint('fixed8',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL);
-  fprintf('Solved with 8 bits\n');
+  [y16,x16] = entrypoint('fixed16',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
+  [y12,x12] = entrypoint('fixed12',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
+
   % Plot 
   subplot(4,1,1);plot(y0,'k'); 
   legend('Ground truth objective') 
@@ -140,10 +128,9 @@ beta = 0.5;
   title('16-bit fixed-point error') 
   xlabel('Iterations, k') 
   
-  %pg_solv_mex
-  pg_solv_analyse(x0,A,b,AtA,Atb,lambda,gamma, beta, MAX_ITER, ABSTOL);
+  pg_solv_mex
 
   figure;
-  imshow([reshape(x0,x0m,x0n),reshape(x64,x0m,x0n), ...
-      reshape(x32,x0m,x0n),reshape(x16,x0m,x0n),reshape(x12,x0m,x0n),reshape(x8,x0m,x0n)],'InitialMagnification', 800);
+  imshow([reshape(x0,x0m,x0n),reshape(b,x0m,x0n),reshape(x64,x0m,x0n), ...
+      reshape(x32,x0m,x0n),reshape(x16,x0m,x0n),reshape(x12,x0m,x0n),reshape(x8,x0m,x0n)]);
 end 

@@ -1,4 +1,4 @@
-function y = entrypoint(dt,f,x0,A,b,AtA,Atb,lambda,gamma,...
+function [y,x] = entrypoint(dt,f,x0,A,b,AtA,Atb,lambda,gamma,...
                             beta,MAX_ITER,ABSTOL)
     T = mytypes(dt);  
     x0 = cast(x0, 'like', T.x);
@@ -13,4 +13,5 @@ function y = entrypoint(dt,f,x0,A,b,AtA,Atb,lambda,gamma,...
     beta=cast(beta, 'like', T.param);
     h = pg_proxsolv(f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL,dt);
     y=h.p_i;
+    x=double(h.x_i(:,end));
 end

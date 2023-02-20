@@ -1,6 +1,6 @@
-## RPFOSolver Benchmark
+##  MixedSolverBench Benchmark
 
-RPFOSolverBench (Reduced-precision First Order Solver Benchmark) is an open-source MATLAB benchmark for fist-order convex optimization solvers. RPFOSolverBench implements the alternating direction method of multipliers (ADMM) and the Proximal-gradient Descent (PGD) under different floating-point and fixed-point machine representations. 
+MixedSolverBench is an open-source MATLAB benchmark for fist-order convex optimization solvers. MixedSolverBench implements the alternating direction method of multipliers (ADMM) and the Proximal-gradient Descent (PGD) under different floating-point and fixed-point machine representations. 
 
 **Current version:** 1.0.0
 
@@ -20,11 +20,11 @@ RPFOSolverBench (Reduced-precision First Order Solver Benchmark) is an open-sour
 
 ## Description<a name="Description"></a>
 
-RPFOSolver Benchmark implements PG and ADMM to solve the LASSO problem
+MixedSolverBench Benchmark implements PG and ADMM to solve the LASSO problem
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;(1)\quad\quad\text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2+\|x\|_1" title="\Large \text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2 + \|x\|_1" />
 
-RPFOSolver Benchmark offers a choice to solve problem (1) using different custom data types and compares the output of each to the default double precision floating-point representation.
+MixedSolverBench Benchmark offers a choice to solve problem (1) using different custom data types and compares the output of each to the default double precision floating-point representation.
 
 ## Requirement<a name="Requirement"></a>
 

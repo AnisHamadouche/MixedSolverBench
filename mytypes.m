@@ -15,21 +15,31 @@ function T = mytypes(dt)
       T.param = single([]);
       T.y = single([]);
       T.x = single([]);
+%     case 'fixed8' 
+%       T.n = fi([],true,8,0); 
+%       T.param = fi([],true,8,2);
+%       T.x = fi([],true,8,4); 
+%       T.y = fi([],true,8,4); 
     case 'fixed8' 
       T.n = fi([],true,8,0); 
-      T.param = fi([],true,8,2);
-      T.x = fi([],true,8,2); 
-      T.y = fi([],true,8,2); 
+      T.param = fi([],true,8,4);
+      T.x = fi([],true,8,4); 
+      T.y = fi([],true,8,4); 
     case 'fixed16' 
       T.n = fi([],true,16,0); 
-      T.param = fi([],true,16,10);
-      T.y = fi([],true,16,10);
-      T.x = fi([],true,16,14);
+      T.param = fi([],true,16,8);
+      T.y = fi([],true,16,8);
+      T.x = fi([],true,16,8);
     case 'fixed12' 
       T.n = fi([],true,12,0); 
-      T.param = fi([],true,12,9);
-      T.y = fi([],true,12,9);
-      T.x = fi([],true,12,9);
+      T.param = fi([],true,12,6);
+      T.y = fi([],true,12,6);
+      T.x = fi([],true,12,6);
+    case 'fixed2' 
+      T.n = fi([],true,2,0); 
+      T.param = fi([],true,2,0);
+      T.y = fi([],true,2,0);
+      T.x = fi([],true,2,0);
     case 'fixed16override' 
       %use scaled doubles to detect potential overflows (see pg_solv_mex.m)
       T.n = fi([],true,16,0,'DataType', 'ScaledDouble');

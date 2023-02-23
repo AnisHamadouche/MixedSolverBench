@@ -3,13 +3,16 @@ function admm_benchmark
     clc;
     close all;
     addpath './ADMM'
+
+    %% configuraion
+    report = false; % set to 'true' for instrumentation report
+    scenario = 'S'; % 'R': real, 'S': synthetic data
     
     %% Problem data
     
     % s = RandStream.create('mt19937ar','seed',0);
     % RandStream.setDefaultStream(s);
     
-    scenario = 'S'; % 'R': real, 'S': synthetic data
     if scenario == 'S'
         % synthetic data
         n = 500;      % number of features
@@ -172,18 +175,18 @@ function admm_benchmark
     end
     
     figure;
-    subplot(5,1,1);semilogy(y0,'k'); 
+    subplot(5,1,1);semilogy(y64,'k'); 
     legend('Ground truth objective') 
     title('Ground truth (Double precision)') 
     
-    subplot(5,2,3);semilogy(y0,'k'); 
+    subplot(5,2,3);semilogy(y32,'k'); 
     title('Single precision floating-point output') 
     subplot(5,2,4);
     try
-      semilogy(abs(y0(1:numel(y32))-double(y32)),'r');
+      semilogy(abs(y64(1:numel(y32))-double(y32)),'r');
       title('Residual error');
     catch
-      semilogy(abs(y0-double(y32(1:numel(y0)))),'r');
+      semilogy(abs(y64-double(y32(1:numel(y64)))),'r');
       title('Residual error');
     end
     
@@ -191,27 +194,27 @@ function admm_benchmark
     title('16-bit fixed-point output') 
     subplot(5,2,6);
     try
-      semilogy(abs(y0(1:numel(y16))-double(y16)),'r');
+      semilogy(abs(y64(1:numel(y16))-double(y16)),'r');
     catch
-      semilogy(abs(y0-double(y16(1:numel(y0)))),'r');
+      semilogy(abs(y64-double(y16(1:numel(y64)))),'r');
     end
     
     subplot(5,2,7);semilogy(y8,'k'); 
     title('8-bit fixed-point output') 
     subplot(5,2,8);
     try
-      semilogy(abs(y0(1:numel(y8))-double(y8)),'r');
+      semilogy(abs(y64(1:numel(y8))-double(y8)),'r');
     catch
-      semilogy(abs(y0-double(y8(1:numel(y0)))),'r');
+      semilogy(abs(y64-double(y8(1:numel(y64)))),'r');
     end
     
     subplot(5,2,9);semilogy(y2,'k'); 
     title('2-bit fixed-point output') 
     subplot(5,2,10);
     try
-      semilogy(abs(y0(1:numel(y2))-double(y2)),'r');
+      semilogy(abs(y64(1:numel(y2))-double(y2)),'r');
     catch
-      semilogy(abs(y0-double(y2(1:numel(y0)))),'r');
+      semilogy(abs(y64-double(y2(1:numel(y64)))),'r');
     end
     
     xlabel('Iterations, k') 
@@ -220,4 +223,12 @@ function admm_benchmark
     if(report)
         admm_solv_mex
     end
+
+    para.gamma = gamma;
+    para.rho = rho;
+    verify('fp64',para)
+    verify('fp32',para)
+    verify('fp16',para)
+    verify('fp12',para)
+    verify('fp8',para)
 end 

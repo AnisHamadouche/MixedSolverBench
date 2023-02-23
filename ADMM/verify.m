@@ -1,15 +1,8 @@
-% ground_x = load('./data/admm/admm_xk_fp64.mat')';
-% ground_x = ground_x.x64;
-% ground_z = load('./data/admm/admm_zk_fp64.mat')';
-% ground_z = ground_z.z64;
-% ground_u = load('./data/admm/admm_uk_fp64.mat')';
-% ground_u = ground_u.u64;
-% admm_optval = load('./data/admm/admm_fk_fp64.mat')';
-% admm_optval = admm_optval.y0;
+function verify(appcase,para)
 
-para.appcase = 'fp32';
+figure
 
-switch para.appcase
+switch appcase
     case  'fp64'
         h.X = load('./data/admm/admm_xk_fp64.mat')';
         h.X = h.X.x64;
@@ -170,8 +163,8 @@ B=-eye(n);
 c=0;
 
 % rho=para.rho;
-probLambda= gamma;
-paramLambda= 1/rho;
+probLambda= para.gamma;
+paramLambda= 1/para.rho;
 
 % tolerances
 %h.SolvTol1=max(h.X-ground_x);
@@ -179,3 +172,4 @@ h.SolvTol1=vecnorm(h.X-ground_x,2).^2/2;
 %h.SolvTol2=max(h.Z-ground_z);
 h.SolvTol2=vecnorm(h.Z-ground_z,2).^2/2;
 admm_bound
+end

@@ -1,4 +1,4 @@
-function [y,x,z,u,y_ref,x_ref,z_ref,u_ref] = admm_entrypoint(A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,dt)
+function [y,x,z,u,y_ref,x_ref,z_ref,u_ref] = admml0_entrypoint(A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,dt)
     T = mytypes(dt);  
     %input
     A=cast(A, 'like', T.x);
@@ -12,7 +12,7 @@ function [y,x,z,u,y_ref,x_ref,z_ref,u_ref] = admm_entrypoint(A, b, Atb, lambda, 
     %beta=cast(beta, 'like', T.param);
     
     h = struct();
-    h = admm_proxsolv(h,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,T);
+    h = admm_proxl0_solv(h,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,T);
     y = h.p_admm;
     x = double(h.x_admm);
     z = double(h.z_admm);

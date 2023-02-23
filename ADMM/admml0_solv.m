@@ -2,7 +2,7 @@
 % lambda = 1;
 % rho = 1/lambda;
 % h = admm(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL);
-function y = admm_solv(x0,z0,u0,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL)
+function y = admml0_solv(x0,z0,u0,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL)
     tic;
     x = x0;
     z = z0;
@@ -24,11 +24,11 @@ function y = admm_solv(x0,z0,u0,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, A
 %         end
         % z-update
         zold = z;
-        z = prox_l1(x + u, lambda*gamma);
+        z = prox_l0(x + u, lambda*gamma);
         % u-update
         u = u + x - z;
         % diagnostics, reporting, termination checks
-        admm_p_i(:,k)   = objective(A, b, gamma, x, z);
+        admm_p_i(:,k)   = objective_l0(A, b, gamma, x, z);
         r_i(:,k)   = norm(x - z);
         s_i(:,k)   = norm(-rho*(z - zold));
         eps_pri(:,k)  = sqrt(n)*ABSTOL + RELTOL*max(norm(x), norm(-z));

@@ -1,4 +1,4 @@
-function h = admm_proxsolv(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,T)
+function h = admm_proxl0_solv(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL,T)
 
     tic;
     x = zeros(n,1, 'like', T.x);
@@ -30,7 +30,7 @@ function h = admm_proxsolv(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABS
         end
         % z-update
         zold(:) = z;
-        z(:) = prox_l1(x + u, lambda*gamma);
+        z(:) = prox_l0(x + u, lambda*gamma);
         z_iter(:,k)=z;
         
         % u-update
@@ -38,7 +38,7 @@ function h = admm_proxsolv(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABS
         u_iter(:,k)=u;
 
         % diagnostics, reporting, termination checks
-        h.admm_optval(k)   = objective(A, b, gamma, x, z);
+        h.admm_optval(k)   = objective_l0(A, b, gamma, x, z);
         h.r_norm(k)   = norm(double(x - z));
         h.s_norm(k)   = norm(double(-rho*(z - zold)));
         h.eps_pri(k)  = sqrt(n)*ABSTOL + RELTOL*max(norm(double(x)), norm(double(-z)));

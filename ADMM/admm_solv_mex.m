@@ -6,26 +6,31 @@ if exist('pg_solv_mex.mexw64', 'file')==2
 end
 
 % TEST INPUT 
-m = 100;       % number of examples
+% synthetic data
 n = 500;      % number of features
+noise_var=0.001;
 
-x0 = randn(n,1);
-z0 = randn(n,1);
-u0 = randn(n,1);
-A = randn(m,n);
-A = A*spdiags(1./sqrt(sum(A.^2))',0,n,n); % normalize columns
-v = sqrt(0.001)*randn(m,1);
-b = A*x0 + v;
+% sparse vector with 0.1*n nonzero entries
+x0 = sprand(n,1,0.1);
+s0 = 0.1*n;
+%m > 2*s0*log(n/s0) + (7/5)*s0 + 1
+m = round(2*s0*log(n/s0) + (7/5)*s0 + 1)+10; % number of examples
 
-fprintf('solving instance with %d examples, %d variables\n', m, n);
-fprintf('nnz(x0) = %d; signal-to-noise ratio: %.2f\n', nnz(x0), norm(A*x0)^2/norm(v)^2);
+H = randn(m,n);
+H = H*spdiags(1./sqrt(sum(H.^2))',0,n,n); % normalize columns
+v = sqrt(noise_var)*randn(m,1);
+b = H*x0 + v;
 
-gamma_max = norm(A'*b,'inf');
+x0 = rand(n,1);
+z0 = x0;
+u0 = zeros(n,1);
+
+gamma_max = norm(H'*b,'inf');
 gamma = 0.1*gamma_max;
 
 % cached computations for all methods
-AtA = A'*A;
-Atb = A'*b;
+HtH = H'*H;
+Htb = H'*b;
 
 %% Global constants and defaults
 
@@ -39,10 +44,10 @@ rho = 1/lambda;
 
 %% Build 
 buildInstrumentedMex admm_solv ... 
-  -args {x0,z0,u0,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL} -histogram 
+  -args {x0,z0,u0,H, b, Htb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL} -histogram 
 
 %% Run 
-y = admm_solv_mex(x0,z0,u0,A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL);
+y = admm_solv_mex(x0,z0,u0,H, b, Htb, lambda, gamma, rho, MAX_ITER, m, n, ABSTOL, RELTOL);
 
 %% Show 
 showInstrumentationResults admm_solv_mex ... 

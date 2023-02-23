@@ -10,13 +10,14 @@ clear;
 clc;
 close all;
 addpath './PG'
+addpath './utils'
 
 %% Problem data
 
 % s = RandStream.create('mt19937ar','seed',0);
 % RandStream.setDefaultStream(s);
 scenario = 'R';
-if scenario == 'S'
+if (scenario == 'S')
     % synthetic data
     n = 500;      % number of features
     noise_var=0.001;
@@ -37,7 +38,7 @@ else
     inputImage = im2double(imread('./data/mi1helicopter.jpg'));
     inputImage = inputImage(:,:,1);
     % reduce resolution to fit in memory
-    N = 1.5;
+    N = 3;
     [rows, columns, numColorChannels] = size(inputImage);
     numOutputRows = round(rows/N);
     numOutputColumns = round(columns/N);
@@ -45,13 +46,13 @@ else
     [x0m,x0n]=size(x0);
     x0 = x0(:);
     n = size(x0,1);
-    s0 = 0.1*n;
+    s0 = 0.0001*n;
     m = round(2*s0*log(n/s0) + (7/5)*s0 + 1)+10; % number of examples
     A = randn(m,n);
     [m,n]=size(A);
     %g = imfilter(f,h,'conv','circular'); % blur
     b = imnoise(A*x0,'gaussian',noise_mean,noise_var); % ading noise
-    imshow(reshape(x0,x0m,x0n));
+    %imshow(reshape(x0,x0m,x0n));
 end
 
 fprintf('solving instance with %d examples, %d variables\n', m, n);
@@ -109,28 +110,28 @@ beta = 0.5;
   fprintf('Solved with single precision\n');
   [psnr_32,snr_32] =  psnr(x32,x0);
   ssimval_32 = ssim(x32,x0);
-  
+%   
   [y16,x16] = entrypoint('fixed16',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
   fprintf('Solved with half precision\n');
   [psnr_16,snr_16] =  psnr(x16,x0);
   ssimval_16 = ssim(x16,x0);
-
+% 
   [y12,x12] = entrypoint('fixed12',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL); 
   fprintf('Solved with 12 bits\n');
   [psnr_12,snr_12] =  psnr(x12,x0);
   ssimval_12 = ssim(x12,x0);  
-  
+%   
   [y8,x8] = entrypoint('fixed8',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL);
   fprintf('Solved with 8 bits\n');
   [psnr_8,snr_8] =  psnr(x8,x0);
   ssimval_8 = ssim(x8,x0);
-
+% 
   [y2,x2] = entrypoint('fixed2',f,x0,A,b,AtA,Atb,lambda,gamma,beta,MAX_ITER,ABSTOL);
   fprintf('Solved with 2 bits\n');
   [psnr_2,snr_2] =  psnr(x2,x0);
   ssimval_2 = ssim(x2,x0);
-
-  % Plot 
+% 
+%   % Plot 
   figure;
   subplot(5,1,1);semilogy(y0,'k'); 
   legend('Ground truth objective') 
@@ -175,17 +176,19 @@ beta = 0.5;
   end
   
   xlabel('Iterations, k') 
-  
-  %pg_solv_mex
-  pg_solv_analyse(x0,A,b,AtA,Atb,lambda,gamma, beta, MAX_ITER, ABSTOL);
-
-  figure;
-  %imshow([reshape(x0,x0m,x0n),reshape(x64,x0m,x0n), ...
-  %    reshape(x32,x0m,x0n),reshape(x16,x0m,x0n),reshape(x12,x0m,x0n),reshape(x8,x0m,x0n)],'InitialMagnification', 800);
-  h64 = subplot(2,3,1), imshow(reshape(x64,x0m,x0n), 'Parent', h64), title(h64, ['BW = 64 bits (',num2str(round(100*64/64)),'%); SSIM = ', num2str(ssimval_64),'; PSNR = ', num2str(psnr_64)]); hold  on
-  h32 = subplot(2,3,2), imshow(reshape(x32,x0m,x0n), 'Parent', h32), title(h32, ['BW = 32 bits (',num2str(round(100*32/64)),'%); SSIM = ', num2str(ssimval_32),'; PSNR = ', num2str(psnr_32)]); hold  on
-  h16 = subplot(2,3,3), imshow(reshape(x16,x0m,x0n), 'Parent', h16), title(h16, ['BW = 16 bits (',num2str(round(100*16/64)),'%); SSIM = ', num2str(ssimval_16),'; PSNR = ', num2str(psnr_16)]); hold  on
-  h12 = subplot(2,3,4), imshow(reshape(x12,x0m,x0n), 'Parent', h12), title(h12, ['BW = 12 bits (',num2str(round(100*12/64)),'%); SSIM = ', num2str(ssimval_12),'; PSNR = ', num2str(psnr_12)]); hold  on
-  h8 = subplot(2,3,5), imshow(reshape(x8,x0m,x0n), 'Parent', h8), title(h8, ['BW = 8 bits (',num2str(round(100*8/64)),'%); SSIM = ', num2str(ssimval_8),'; PSNR = ', num2str(psnr_8)]); hold  on
-  h2 = subplot(2,3,6), imshow(reshape(x2,x0m,x0n), 'Parent', h2), title(h2, ['BW = 2 bits (',num2str(round(100*2/64)),'%); SSIM = ', num2str(ssimval_2),'; PSNR = ', num2str(psnr_2)]); hold  off
+%   
+%   %pg_solv_mex
+%   pg_solv_analyse(x0,A,b,AtA,Atb,lambda,gamma, beta, MAX_ITER, ABSTOL);
+% 
+  if (scenario == 'R')
+      figure;
+    %   imshow([reshape(x0,x0m,x0n),reshape(x64,x0m,x0n), ...
+    %      reshape(x32,x0m,x0n),reshape(x16,x0m,x0n),reshape(x12,x0m,x0n),reshape(x8,x0m,x0n)],'InitialMagnification', 800);
+      h64 = subplot(2,3,1), imshow(reshape(x64,x0m,x0n), 'Parent', h64), title(h64, ['BW = 64 bits (',num2str(round(100*64/64)),'%); SSIM = ', num2str(ssimval_64),'; PSNR = ', num2str(psnr_64)]); hold  on
+      h32 = subplot(2,3,2), imshow(reshape(x32,x0m,x0n), 'Parent', h32), title(h32, ['BW = 32 bits (',num2str(round(100*32/64)),'%); SSIM = ', num2str(ssimval_32),'; PSNR = ', num2str(psnr_32)]); hold  on
+      h16 = subplot(2,3,3), imshow(reshape(x16,x0m,x0n), 'Parent', h16), title(h16, ['BW = 16 bits (',num2str(round(100*16/64)),'%); SSIM = ', num2str(ssimval_16),'; PSNR = ', num2str(psnr_16)]); hold  on
+      h12 = subplot(2,3,4), imshow(reshape(x12,x0m,x0n), 'Parent', h12), title(h12, ['BW = 12 bits (',num2str(round(100*12/64)),'%); SSIM = ', num2str(ssimval_12),'; PSNR = ', num2str(psnr_12)]); hold  on
+      h8 = subplot(2,3,5), imshow(reshape(x8,x0m,x0n), 'Parent', h8), title(h8, ['BW = 8 bits (',num2str(round(100*8/64)),'%); SSIM = ', num2str(ssimval_8),'; PSNR = ', num2str(psnr_8)]); hold  on
+      h2 = subplot(2,3,6), imshow(reshape(x2,x0m,x0n), 'Parent', h2), title(h2, ['BW = 2 bits (',num2str(round(100*2/64)),'%); SSIM = ', num2str(ssimval_2),'; PSNR = ', num2str(psnr_2)]); hold  off
+  end
 end 

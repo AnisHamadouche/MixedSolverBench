@@ -35,3 +35,7 @@ function y = pg_solv(x0,A,b,AtA,Atb,lambda, ...
             end
         end
 end
+
+function p = objfunc(A, b, gamma, x, z)
+    p = 0.5*sum_square(A*x - b) + gamma*l1_norm(z);
+end

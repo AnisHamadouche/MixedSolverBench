@@ -34,9 +34,9 @@ MixedSolverBench Benchmark offers a choice to solve problem (1) using different 
 ## Quick start<a name="QuickStart"></a>
 
 Type
- 	``>> pg_benchmark
+ 	`>> pg_benchmark`
 OR
-	``>> admm_benchmark
+	`>> admm_benchmark`
 	
 with custom problem data (modify the data) or use the default randomly generated problem data to compare the LASSO function values under different machine representations. The default benchmark implements PG and ADMM under 'double precision', 'single precision', '12 bits fixed-point' and  '16 bits fixed-point' representations. 
 

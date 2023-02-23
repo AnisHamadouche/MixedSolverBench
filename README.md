@@ -2,7 +2,7 @@
 
 MixedSolverBench is an open-source MATLAB benchmark for fist-order convex optimization solvers. MixedSolverBench implements the alternating direction method of multipliers (ADMM) and the Proximal-gradient Descent (PGD) under different floating-point and fixed-point machine representations. 
 
-**Current version:** 1.0.0
+**Current version:** 1.0.1
 
 **Release notes:** 
 

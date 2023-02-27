@@ -156,8 +156,8 @@ u0=zeros(n,1);
 
 % x_opt=ground_x(:,end);
 % z_opt=ground_z(:,end);
-x_opt=h.X(:,end);
-z_opt=h.Z(:,end);
+x_opt=h.X(:,end); % x_opt = cast(x0,'reduced precision');
+z_opt=h.Z(:,end); % z_opt = cast(x0,'reduced precision');
 A=eye(n);
 B=-eye(n);
 c=0;

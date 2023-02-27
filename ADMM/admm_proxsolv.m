@@ -13,7 +13,7 @@ function h = admm_proxsolv(h, A, b, Atb, lambda, gamma, rho, MAX_ITER, m, n, ABS
 
     q = zeros(n,1, 'like', T.x);
 
-    [L, U] = factor(A, rho);
+    [L, U] = factor(A, rho); % factor (A'A,rho)
     U_inv = pinv(U);
     L_inv = pinv(L);
     for k = 1:MAX_ITER

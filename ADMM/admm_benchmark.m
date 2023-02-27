@@ -3,6 +3,7 @@ function admm_benchmark
     clc;
     close all;
     addpath './ADMM'
+    addpath './utils'
 
     %% configuraion
     report = false; % set to 'true' for instrumentation report

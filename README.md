@@ -22,7 +22,9 @@ MixedSolverBench is an open-source MATLAB benchmark for fist-order convex optimi
 
 MixedSolverBench Benchmark implements PG and ADMM to solve the LASSO problem
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;(1)\quad\quad\text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2+\|x\|_1" title="\Large \text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2 + \|x\|_1" />
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;(1)\quad\quad\text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2+\|x\|_p" title="\Large \text{minimize}\quad\quad\frac{1}{2}\|Ax-b\|_2^2 + \|x\|_p" />
+
+where p = 1 or 0.
 
 MixedSolverBench Benchmark offers a choice to solve problem (1) using different custom data types and compares the output of each to the default double precision floating-point representation.
 
